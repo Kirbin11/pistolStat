@@ -4,6 +4,7 @@ export const CONFIG = {
   RSS: '/rss',
   RESULTS: '/results',
   MATCHES: '/matches',
+  PISTOL: '/pistol',
 }
 
 export const MAPS = {

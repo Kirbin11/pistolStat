@@ -36,10 +36,43 @@ export async function getMatches() {
       normalizeWhitespace: true,
     })
 
-    const allContent = $('.upcomingMatch')
     const matches: IMatch[] = []
+    const liveMatches = $('.liveMatch-container')
+    liveMatches.map((_i, element) => {
+      const el = $(element)
+      const stars = Number(el.attr('stars'))
+      const link = el.find('.liveMatch a').attr('href')!
+      const id = parseInt(link.split('/')[2], 10)
+      const time = '' // new Date(parseInt(el.find('.matchTime').attr('data-unix'), 10)).toISOString();
+      const event = {
+        name: el.find('.matchEventName').text(),
+        crest: el.find('.matchEventLogo').attr('src')!,
+      }
 
-    allContent.map((_i, element) => {
+      const team1El = el.children('.liveMatch').find('.matchTeam').first()
+      const team2El = el.children('.liveMatch').find('.matchTeam').last()
+      const team1 = {
+        name: team1El.find('.matchTeamName').text(),
+        crest: team1El.find('.matchTeamLogo').attr('src')!,
+      }
+      const team2 = {
+        name: team2El.find('.matchTeamName').text(),
+        crest: team2El.find('.matchTeamLogo').attr('src')!,
+      }
+      const response: IMatch = {
+        id,
+        link,
+        time,
+        event,
+        stars,
+        map: '',
+        teams: [team1, team2],
+      }
+      matches[matches.length] = response
+    })
+
+    const upcomingMatches = $('.upcomingMatch')
+    upcomingMatches.map((_i, element) => {
       const el = $(element)
 
       const link = el.children('a').attr('href')!
